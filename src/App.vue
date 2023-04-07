@@ -1,20 +1,96 @@
 <template>
-  <HeaderView />
-  <router-view />
-  <!-- <FooterView /> -->
+  <HeaderView :isLoggedIn="isLoggedIn" />
+
+  <router-view
+    :plants="plants"
+    @login="login"
+    @register="register"
+    :isLoggedIn="isLoggedIn"
+  />
 </template>
 
 <script>
-import M from "materialize-css";
+import axios from "axios";
 import HeaderView from "./components/HeaderView.vue";
-// import FooterView from "./components/Footer.vue";
 export default {
   components: {
     HeaderView,
-    // FooterView,
   },
-  mounted() {
-    M.AutoInit();
+  data() {
+    return {
+      plants: [],
+      user: {},
+      isLoggedIn: false,
+    };
+  },
+  methods: {
+    async getPlants() {
+      // const res = await fetch("http://localhost:5000/Plants");
+      // return await res.json();
+      try {
+        const response = await axios.get(
+          "http://localhost:1337/api/plants?fields=name&fields=description&populate=image"
+        );
+        return response.data.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    //user registration
+    register(userData) {
+      axios
+        .post("http://localhost:1337/api/auth/local/register", {
+          username: userData.username,
+          email: userData.email,
+          password: userData.password,
+        })
+        .then((response) => {
+          console.log("User profile", response.data.user);
+          this.$router.push("/login");
+          console.log("User token", response.data.jwt);
+        })
+        .catch((error) => {
+          console.log("An error occurred:", error.response);
+        });
+    },
+    //login
+    async login(userData) {
+      try {
+        const response = await axios.post(
+          "http://localhost:1337/api/auth/local",
+          {
+            identifier: userData.username,
+            password: userData.password,
+          }
+        );
+        localStorage.setItem("token", response.data.jwt);
+        this.isLoggedIn = true;
+        this.$router.push("/");
+        console.log("User profile", response.data.user);
+      } catch (error) {
+        console.log("An error occurred:", error.response);
+      }
+    },
+    //get user
+    // async getUser() {
+    //   console.log(localStorage.getItem('token'))
+    //   try {
+    //     const response = await axios.get("http://localhost:1337/api/users/me", {
+    //       headers: {
+    //         Authorization:'Bearer ' +localStorage.getItem('token'),
+    //       },
+    //     });
+    //     console.log(response.data.user);
+    //     this.user = response.data.user;
+    //     // this.isLoggedIn = response.user.data.confirmed;
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
+    //get plants
+  },
+  async created() {
+    this.plants = await this.getPlants();
   },
 };
 </script>

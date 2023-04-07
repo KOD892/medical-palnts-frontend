@@ -1,34 +1,10 @@
 <template>
   <section id="main ">
-    <div class="grid">
-      <div class="side-nav grey lighten-3">
-        <ul class="collection grey lighten-3">
-          <a href=""
-            ><li class="collection-item grey lighten-3">Description</li></a
-          >
-          <a href=""><li class="collection-item active">Uses</li></a>
-          <a href=""
-            ><li class="collection-item grey lighten-3">
-              Therapeutic Action
-            </li></a
-          >
-          <a href=""
-            ><li class="collection-item grey lighten-3">
-              Precaution for Use
-            </li></a
-          >
-          <a href=""
-            ><li class="collection-item grey lighten-3">Adverse Effect</li></a
-          >
-          <a href=""
-            ><li class="collection-item grey lighten-3">Contraindication</li></a
-          >
-          <a href=""><li class="collection-item grey lighten-3">Dosage</li></a>
-          <a href=""><li class="collection-item grey lighten-3">Storage</li></a>
-        </ul>
-      </div>
+    <div class="container">
       <div class="about">
-        <div class="title"><h5>Garlic</h5></div>
+        <div class="title">
+          <h5>{{ plant.attributes.name }}</h5>
+        </div>
         <hr />
         <div class="grid about-plant">
           <div class="plant-img">
@@ -39,17 +15,86 @@
               <tbody>
                 <tr>
                   <td><b>Botanical Name</b></td>
-                  <td>Alium sativum L.</td>
+                  <td>{{ plant.attributes.botanical }}</td>
                 </tr>
                 <tr>
                   <td><b>Common Names</b></td>
-                  <td>garlic (English)</td>
+                  <td>{{ plant.attributes.local }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+        <div class="other-info">
+          <table>
+            <thead>
+              <b>Description</b>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ plant.attributes.description }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <thead>
+              <b>Uses</b>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ plant.attributes.use }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <thead>
+              <b>Dosage</b>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ plant.attributes.dosage }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </section>
+  <FooterView />
 </template>
+<script>
+import axios from "axios";
+import FooterView from "../components/Footer.vue";
+export default {
+  components: {
+    FooterView,
+  },
+  data() {
+    return {
+      plant: {},
+      id: "",
+    };
+  },
+  methods: {
+    async getPlant(id) {
+      try {
+        const res = await axios.get(`http://localhost:1337/api/plants/${id}`);
+        return res.data.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  async created() {
+    this.id = this.$route.params.id;
+    this.plant = await this.getPlant(this.id);
+  },
+};
+</script>
+
+<style scoped>
+.other-info table {
+  padding: 10px 5px;
+  margin: 10px 0;
+}
+</style>

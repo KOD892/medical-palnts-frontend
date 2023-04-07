@@ -1,0 +1,19 @@
+{
+    "Plants": [
+      { "id": 1, "name": "Garlic", "author": "John Doe", "localNames":"Garlic","botanical":"Alium sativum L.","description": "An erect, hardy and bulbous perennial herb up to 60 cm in height, with a central bulb covered in scales in the axil, bulb consists of a number of cloves enclosed in a paper-like skin; leaves are long, flat and smooth, leaf blade is cylindrical, hollow, linear, flat and solid with an acute apex; spherical inflorescence with white to purplish-pink coloured flowers found on slender pedicels ",
+      "dosage":"Intact bulb, decoction, tincture, tablets, capsules, Generally, the fresh bulb and the bulb oil can be given at 2-5 mg daily ( or one fresh bulb or clove 1-2 times daily) while the dose for the powder is at 400-1200 mg daily and tincture of 1:5 in 60% alchohol is given at 5 ml three times daily. These are the particularly high doses when garlic is used as antimicrobial, antihelmintic, antihypertensive, carminative, anti-lipidemic, antisoasmodic, anti-daibetic, and anti- inflammatory agent.",
+       "uses":"Garlic is cholesterol –lowering, antihypertensive, anti-coagulant, anti-dirrhoeal, anti-dysenteric, immune stimulant, sudorific, expectorant, anthelmintic, counter -irritant, diuretic, broad spectrum antibiotic and anthelmintic. It is used extremely for arthritis, corns, warts, nuuralepia (Elujoba and Olawode, 2004; Gill 1992; Adjanahoun et al., 1991), fever cough, flatulence, ulcer, hoarseness, bronchitis and other respiratory problems. Skin diseases burns, earache and tonsillitis, rheumatism, tuberculosis, typhoid, diabetes, arteriosclerosis, hyperlipidaemia and in the prevention of atherosclerotic (age-dependant) vascular changes.",
+       "img":"./src/assets/garlic.jpg"
+     },
+     { "id": 2, "name": "Aloe Vera", "author": "John Doe", "localNames":"Garlic","botanical":"Alium sativum L.","description": "An erect, hardy and bulbous perennial herb up to 60 cm in height, with a central bulb covered in scales in the axil, bulb consists of a number of cloves enclosed in a paper-like skin; leaves are long, flat and smooth, leaf blade is cylindrical, hollow, linear, flat and solid with an acute apex; spherical inflorescence with white to purplish-pink coloured flowers found on slender pedicels ",
+     "dosage":"Intact bulb, decoction, tincture, tablets, capsules, Generally, the fresh bulb and the bulb oil can be given at 2-5 mg daily ( or one fresh bulb or clove 1-2 times daily) while the dose for the powder is at 400-1200 mg daily and tincture of 1:5 in 60% alchohol is given at 5 ml three times daily. These are the particularly high doses when garlic is used as antimicrobial, antihelmintic, antihypertensive, carminative, anti-lipidemic, antisoasmodic, anti-daibetic, and anti- inflammatory agent.",
+      "uses":"Garlic is cholesterol –lowering, antihypertensive, anti-coagulant, anti-dirrhoeal, anti-dysenteric, immune stimulant, sudorific, expectorant, anthelmintic, counter -irritant, diuretic, broad spectrum antibiotic and anthelmintic. It is used extremely for arthritis, corns, warts, nuuralepia (Elujoba and Olawode, 2004; Gill 1992; Adjanahoun et al., 1991), fever cough, flatulence, ulcer, hoarseness, bronchitis and other respiratory problems. Skin diseases burns, earache and tonsillitis, rheumatism, tuberculosis, typhoid, diabetes, arteriosclerosis, hyperlipidaemia and in the prevention of atherosclerotic (age-dependant) vascular changes.",
+      "img":"./src/assets/garlic.jpg"
+    }
+     
+    ],
+    "comments": [
+      { "id": 1, "body": "some comment", "postId": 1 }
+    ],
+    "Users": {"id":1, "username": "John Doe","role":"contributor","email":"john@gmail.com","img":"img","password":"password" }
+  }
