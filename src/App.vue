@@ -1,12 +1,7 @@
 <template>
-  <HeaderView :isLoggedIn="isLoggedIn" />
+  <HeaderView v-if="!$route.meta.hideNavbar" />
 
-  <router-view
-    :plants="plants"
-    @login="login"
-    @register="register"
-    :isLoggedIn="isLoggedIn"
-  />
+  <router-view :plants="plants" @register="register" :isLoggedIn="isLoggedIn" />
 </template>
 
 <script>
@@ -44,53 +39,34 @@ export default {
           email: userData.email,
           password: userData.password,
         })
-        .then((response) => {
-          console.log("User profile", response.data.user);
+        .then(() => {
           this.$router.push("/login");
-          console.log("User token", response.data.jwt);
         })
         .catch((error) => {
           console.log("An error occurred:", error.response);
         });
     },
-    //login
-    async login(userData) {
+    // get user
+    async getUser() {
       try {
-        const response = await axios.post(
-          "http://localhost:1337/api/auth/local",
-          {
-            identifier: userData.username,
-            password: userData.password,
-          }
-        );
-        localStorage.setItem("token", response.data.jwt);
-        this.isLoggedIn = true;
-        this.$router.push("/");
-        console.log("User profile", response.data.user);
+        await axios.get("http://localhost:1337/api/users/me", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        this.$store.commit("setAuthentication", true);
       } catch (error) {
-        console.log("An error occurred:", error.response);
+        console.error(error);
+        this.isLoggedIn = false;
       }
     },
-    //get user
-    // async getUser() {
-    //   console.log(localStorage.getItem('token'))
-    //   try {
-    //     const response = await axios.get("http://localhost:1337/api/users/me", {
-    //       headers: {
-    //         Authorization:'Bearer ' +localStorage.getItem('token'),
-    //       },
-    //     });
-    //     console.log(response.data.user);
-    //     this.user = response.data.user;
-    //     // this.isLoggedIn = response.user.data.confirmed;
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
-    //get plants
   },
   async created() {
+    // get plants
     this.plants = await this.getPlants();
+  },
+  mounted() {
+    this.getUser();
   },
 };
 </script>

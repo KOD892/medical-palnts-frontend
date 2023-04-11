@@ -76,6 +76,7 @@
 <script>
 export default {
   name: "LoginView",
+  emits: ["register"],
   data() {
     return {
       formData: {

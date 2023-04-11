@@ -17,21 +17,21 @@
 
         <ul class="right hide-on-med-and-down">
           <li><a href="/#plants">Plants</a></li>
-          <li v-if="!isLoggedIn">
+          <li :class="{ hide: isLoggedIn }">
             <router-link to="/login">Sign In</router-link>
           </li>
-          <li v-if="!isLoggedIn">
+          <li :class="{ hide: isLoggedIn }">
             <router-link to="/register" class="btn white green-text"
               >Sign up</router-link
             >
           </li>
           <!-- Dropdown Trigger -->
-          <li v-if="isLoggedIn">
-            <a class="dropdown-trigger" href="#!" data-target="dropdown1"
-              ><i class="large material-icons right"
+          <li :class="{ hide: !isLoggedIn }">
+            <div class="dropdown-trigger" data-target="dropdown1">
+              <i class="large material-icons right"
                 >account_circle arrow_drop_down</i
-              ></a
-            >
+              >
+            </div>
           </li>
         </ul>
       </div>
@@ -46,10 +46,18 @@
 </template>
 <script>
 import M from "materialize-css";
+
 export default {
   name: "HeaderView",
-  props: {
-    isLoggedIn: Boolean,
+  data() {
+    return {
+      authenticated: false,
+    };
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.isAuth;
+    },
   },
   mounted() {
     M.AutoInit();
@@ -57,3 +65,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.hide {
+  display: none;
+}
+</style>

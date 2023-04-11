@@ -13,11 +13,11 @@
               <tbody>
                 <tr>
                   <td><b>Username</b></td>
-                  <td>John Doe</td>
+                  <td>{{ user.username }}</td>
                 </tr>
                 <tr>
                   <td><b>Email</b></td>
-                  <td>john@gmail.com</td>
+                  <td>{{ user.email }}</td>
                 </tr>
                 <tr>
                   <td><b>Role</b></td>
@@ -77,12 +77,38 @@
 
 <script>
 import M from "materialize-css";
+import axios from "axios";
 export default {
   name: "ProfileView",
   components: {},
+  data() {
+    return {
+      user: {},
+    };
+  },
+  methods: {
+    // get user
+    async getUser() {
+      try {
+        const response = await axios.get("http://localhost:1337/api/users/me", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        // this.user = response.data.user;
+        this.user = response.data;
+      } catch (error) {
+        this.$router.push("/");
+        console.error(error);
+      }
+    },
+  },
   mounted() {
     M.AutoInit();
     // console.log(this.$router.currentRoute._value.path)
+  },
+  created() {
+    this.getUser();
   },
 };
 </script>

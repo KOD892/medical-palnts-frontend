@@ -7,7 +7,7 @@
       <div class="card">
         <div class="card-content">
           <span class="card-title center">Sign In</span>
-          <form @submit.prevent="$emit('login', formData)">
+          <form @submit.prevent="login(formData)">
             <div class="row">
               <div class="input-field col s12">
                 <input
@@ -36,7 +36,6 @@
               <button class="col s12 btn green">Sign In</button>
             </div>
           </form>
-          <p>{{ formData.username }} - {{ formData.password }}</p>
         </div>
       </div>
       <p class="center">
@@ -50,8 +49,10 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "LoginView",
+  emits: ["login"],
   data() {
     return {
       formData: {
@@ -59,6 +60,26 @@ export default {
         password: "",
       },
     };
+  },
+  methods: {
+    //login
+    async login(userData) {
+      try {
+        const response = await axios.post(
+          "http://localhost:1337/api/auth/local",
+          {
+            identifier: userData.username,
+            password: userData.password,
+          }
+        );
+        localStorage.setItem("token", response.data.jwt);
+        this.$store.commit("setAuthentication", true);
+        this.$router.push("/");
+        console.log("User profile", response.data.user);
+      } catch (error) {
+        console.log("An error occurred:", error.response);
+      }
+    },
   },
 };
 </script>

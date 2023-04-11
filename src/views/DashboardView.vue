@@ -1,5 +1,4 @@
 <template>
-  <HeaderView />
   <div class="dash">
     <section class="side-nav grey lighten-3">
       <ul class="collection">
@@ -14,8 +13,12 @@
                   src="../assets/profile.jpg"
               /></router-link>
             </div>
-            <div><span class="name">John Doe</span></div>
-            <div><span class="email">jdandturk@gmail.com</span></div>
+            <div>
+              <span class="name">{{ user.username }}</span>
+            </div>
+            <div>
+              <span class="email">{{ user.email }}</span>
+            </div>
           </div>
         </div>
         <li class="collection-item active"><a href="#!">All Plants</a></li>
@@ -39,46 +42,94 @@
 
   <!-- Modal Structure -->
   <div id="modal1" class="modal modal-fixed-footer">
-    <form>
+    <form @submit.prevent="postPlant()">
       <div class="modal-content">
         <div class="row">
           <div class="input-field col s12">
-            <input required id="botanical-name" type="text" class="validate" />
-            <label for="botanical-name">botanical name</label>
+            <input
+              required
+              id="name"
+              type="text"
+              class="validate"
+              v-model="plant.name"
+            />
+            <label for="name">Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input required id="botanical-name" type="text" class="validate" />
-            <label for="botanical-name">botanical name</label>
+            <input
+              required
+              id="botanical"
+              type="text"
+              class="validate"
+              v-model="plant.botanical"
+            />
+            <label for="botanical">Botanical name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input required id="botanical-name" type="text" class="validate" />
-            <label for="botanical-name">botanical name</label>
+            <input
+              required
+              id="local"
+              type="text"
+              class="validate"
+              v-model="plant.local"
+            />
+            <label for="local">Local names</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input required id="botanical-name" type="text" class="validate" />
-            <label for="botanical-name">botanical name</label>
+            <textarea
+              required
+              id="description"
+              class="materialize-textarea"
+              v-model="plant.description"
+            ></textarea>
+            <label for="description">Description</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input required id="botanical-name" type="text" class="validate" />
-            <label for="botanical-name">botanical name</label>
+            <textarea
+              required
+              id="use"
+              class="materialize-textarea"
+              v-model="plant.use"
+            ></textarea>
+            <label for="use">Use</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea
+              required
+              id="dosage"
+              class="materialize-textarea"
+              v-model="plant.dosage"
+            ></textarea>
+            <label for="dosage">Dosage</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-filed">
+            <label for="image">plant image</label>
+            <input type="file" name="image" @change="onFileChange" required />
           </div>
         </div>
       </div>
       <div class="row modal-footer grey lighten-4">
-        <button
+        <div
           class="modal-close waves-effect waves-green btn-flat btn red white-text"
         >
           Cancel <i class="material-icons">cancel</i>
-        </button>
-        <button class="modal-close waves-effect waves-green btn-flat btn green">
+        </div>
+        <button
+          type="submit"
+          class="modal-close waves-effect white-text waves-green btn green"
+        >
           Add Plant
         </button>
       </div>
@@ -88,20 +139,79 @@
 
 <script>
 import M from "materialize-css";
-import HeaderView from "../components/HeaderView.vue";
+import axios from "axios";
 import PlantsComponent from "../components/Plants.vue";
 export default {
   name: "DashboardView",
   props: {
     plants: Array,
   },
+  data() {
+    return {
+      user: {},
+      plant: {
+        // username: this.user.username,
+        name: "",
+        botanical: "",
+        local: "",
+        description: "",
+        use: "",
+        dosage: "",
+        users_permissions_user: "",
+      },
+      plantImg: null,
+    };
+  },
   components: {
-    HeaderView,
     PlantsComponent,
+  },
+  methods: {
+    //on file change
+    onFileChange(e) {
+      this.plantImg = e.target.files[0];
+    },
+    //post plant
+    async postPlant() {
+      const fd = new FormData();
+      this.plant.users_permissions_user = this.user;
+      fd.append("files.image", this.plantImg, this.plant.name);
+      fd.append("data", JSON.stringify(this.plant));
+      console.log(fd);
+      try {
+        const response = await axios.post(
+          "http://localhost:1337/api/plants",
+          fd,
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    // get user
+    async getUser() {
+      try {
+        const response = await axios.get("http://localhost:1337/api/users/me", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        // this.user = response.data.user;
+        this.user = response.data;
+      } catch (error) {
+        this.$router.push("/");
+        console.error(error);
+      }
+    },
   },
   mounted() {
     M.AutoInit();
     // console.log(this.$router.currentRoute._value.path)
+    this.getUser();
   },
 };
 </script>

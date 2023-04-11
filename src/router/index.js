@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import store from "../store";
 
 const routes = [
   {
@@ -16,21 +17,41 @@ const routes = [
     path: "/dashboard",
     name: "dashboard",
     component: () => import("../views/DashboardView.vue"),
+    beforeEnter: (to, from, next) => {
+      if (store.state.isAuth == false) {
+        next("/");
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/profile",
     name: "profile",
     component: () => import("../views/ProfileView.vue"),
+    beforeEnter: (to, from, next) => {
+      if (store.state.isAuth == false) {
+        next("/");
+      } else {
+        next();
+      }
+    },
   },
   {
     path: "/login",
     name: "login",
     component: () => import("../views/LoginView.vue"),
+    meta: {
+      hideNavbar: true,
+    },
   },
   {
     path: "/register",
     name: "register",
     component: () => import("../views/RegisterView.vue"),
+    meta: {
+      hideNavbar: true,
+    },
   },
 
   // {
