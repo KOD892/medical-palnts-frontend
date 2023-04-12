@@ -4,19 +4,16 @@
   <ul id="dropdown1" class="dropdown-content">
     <li><router-link to="/profile">My Profile</router-link></li>
     <li><router-link to="/dashboard">Dashboard</router-link></li>
-    <li><a href="/#plants">Plants</a></li>
     <li><a href="/logout">Logout</a></li>
   </ul>
   <div class="navbar-fixed">
     <nav class="green">
       <div class="nav-wrapper container">
-        <a href="/" class="brand-logo">Logo</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"
           ><i class="material-icons">menu</i></a
         >
 
         <ul class="right hide-on-med-and-down">
-          <li><a href="/#plants">Plants</a></li>
           <li :class="{ hide: isLoggedIn }">
             <router-link to="/login">Sign In</router-link>
           </li>
@@ -39,7 +36,6 @@
   </div>
 
   <ul class="sidenav" id="mobile-demo">
-    <li><a href="/#plants">Plants</a></li>
     <li><a href="register.html">Sign In</a></li>
     <li><a href="login.html" class="btn white green-text">Sign up</a></li>
   </ul>

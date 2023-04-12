@@ -1,10 +1,10 @@
 <template>
-  <section id="landing">
+  <!-- <section id="landing">
     <div class="overlay">
       <p>Welcome to the..</p>
       <h4>Medicinal Plants Repository</h4>
     </div>
-  </section>
+  </section> -->
   <div class="divider"></div>
 
   <!-- all plants -->
