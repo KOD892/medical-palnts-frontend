@@ -8,10 +8,14 @@
         <hr />
         <div class="grid about-plant">
           <div class="plant-img">
-            <img class="responsive"    :src="
-          'http://localhost:1337' +
-          plant.attributes.image.data.attributes.url
-        " alt="" />
+            <img
+              class="responsive"
+              :src="
+                'http://localhost:1337' +
+                plant.attributes.image.data.attributes.url
+              "
+              alt=""
+            />
           </div>
           <div class="details">
             <table>
@@ -81,7 +85,9 @@ export default {
   methods: {
     async getPlant(id) {
       try {
-        const res = await axios.get(`http://localhost:1337/api/plants/${id}`);
+        const res = await axios.get(
+          `http://localhost:1337/api/plants/${id}?populate=image`
+        );
         return res.data.data;
       } catch (error) {
         console.log(error);
