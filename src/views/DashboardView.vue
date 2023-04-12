@@ -23,9 +23,6 @@
         </div>
         <li class="collection-item active"><a href="#!">All Plants</a></li>
         <li class="collection-item grey lighten-3">
-          <a href="#!">My Plants</a>
-        </li>
-        <li class="collection-item grey lighten-3">
           <a class="modal-trigger" href="#modal1">Add Plant</a>
           <i class="material-icons right">add</i>
         </li>
