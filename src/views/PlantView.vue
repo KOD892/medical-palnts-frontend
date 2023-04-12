@@ -8,7 +8,10 @@
         <hr />
         <div class="grid about-plant">
           <div class="plant-img">
-            <img class="responsive" src="../assets/garlic.jpg" alt="" />
+            <img class="responsive"    :src="
+          'http://localhost:1337' +
+          plant.attributes.image.data.attributes.url
+        " alt="" />
           </div>
           <div class="details">
             <table>

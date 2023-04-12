@@ -3,7 +3,10 @@
     <div class="col m5 img-container left">
       <!-- to change img src -->
       <img
-        src="../assets/garlic.jpg"
+      :src="
+          'http://localhost:1337' +
+          plant.attributes.image.data.attributes.url
+        "
         alt=""
         class="responsive-image herb-img"
       />
